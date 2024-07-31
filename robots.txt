@@ -2,4 +2,6 @@ User-agent: *
 Disallow: /secret.html
 Disallow: /secret-card.js
 Disallow: /main.js
+Disallow: /server.js
+Disallow: /users.db
 Disallow: /path-to-sensitive-page/
