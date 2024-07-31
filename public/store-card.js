@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url: '/data',  // تأكد من أن هذا العنوان صحيح
+        url: 'https://electronic-marketing.vercel.app/secret.html',  // تأكد من أن هذا العنوان صحيح
         method: 'GET',
         success: function(data) {
             if (data.length > 0) {
