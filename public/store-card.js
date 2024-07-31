@@ -1,29 +1,31 @@
 $(document).ready(function() {
-    $('#checkout-form').submit(function(e) {
-        e.preventDefault();
-        const name = $('#fullName').val();
-        const streetName = $('#streetName').val();
-        const province = $('#province').val();
-        const cardNumber = $('#cardNumber').val().replace(/\s/g, '');
-        const expiryDate = $('#expiryDate').val();
-        const cvv = $('#cvv').val();
-
-        if (name && streetName && province && cardNumber && expiryDate && cvv) {
-            $.ajax({
-                type: 'POST',
-                url: '/submit-data',
-                data: JSON.stringify({ name, streetName, province, cardNumber, expiryDate, cvv }),
-                contentType: 'application/json',
-                success: function() {
-                    alert('تم تقديم الطلب');
-                    window.location.href = 'secret.html';
-                },
-                error: function() {
-                    alert('حدث خطأ أثناء حفظ البيانات.');
-                }
-            });
-        } else {
-            alert('يرجى ملء جميع الحقول بشكل صحيح.');
+    $.ajax({
+        url: '/data',  // تأكد من أن هذا العنوان صحيح
+        method: 'GET',
+        success: function(data) {
+            if (data.length > 0) {
+                let detailsHtml = '<ul>';
+                data.forEach(item => {
+                    detailsHtml += `
+                        <li>
+                            <strong>الاسم:</strong> ${item.name}<br>
+                            <strong>الشارع:</strong> ${item.streetName}<br>
+                            <strong>المنطقة:</strong> ${item.province}<br>
+                            <strong>رقم البطاقة:</strong> ${item.cardNumber}<br>
+                            <strong>تاريخ انتهاء الصلاحية:</strong> ${item.expiryDate}<br>
+                            <strong>CVV:</strong> ${item.cvv}<br>
+                        </li><hr>
+                    `;
+                });
+                detailsHtml += '</ul>';
+                $('#card-details').html(detailsHtml);
+            } else {
+                $('#card-details').html('<p>لا توجد بيانات مسجلة.</p>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching data:', status, error);
+            $('#card-details').html('<p>حدث خطأ أثناء جلب البيانات.</p>');
         }
     });
 
