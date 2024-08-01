@@ -1,10 +1,14 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
-const path = require('path'); // لإستخدام مسارات الملفات
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Load environment variables from a .env file into process.env
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // استخدام المنفذ من المتغيرات البيئية أو 3000 كافتراضي
 
 // Middleware for parsing JSON and URL-encoded data
 app.use(bodyParser.json());
@@ -14,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database connection
-let db = new sqlite3.Database('users.db', (err) => {
+let db = new sqlite3.Database(process.env.DB_NAME || 'users.db', (err) => {
     if (err) {
         console.error(err.message);
     }
