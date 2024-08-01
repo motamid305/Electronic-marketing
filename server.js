@@ -1,9 +1,9 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
+const dbPath = 'users.db';
 const bodyParser = require('body-parser');
 const path = require('path');
 const dotenv = require('dotenv');
-
 // Load environment variables from a .env file into process.env
 dotenv.config();
 
